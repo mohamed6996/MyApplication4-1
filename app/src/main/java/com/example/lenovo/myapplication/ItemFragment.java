@@ -14,16 +14,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Switch;
-import android.widget.TextView;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -104,6 +99,8 @@ public class ItemFragment extends Fragment {
             initDataset(Constants.TOP_RATED);
             return true;
         }
+
+
         editor.apply();
         return super.onOptionsItemSelected(item);
     }
@@ -122,7 +119,6 @@ public class ItemFragment extends Fragment {
         } else {
             mLayoutManager = new GridLayoutManager(getActivity(), 2);
         }
-
 
 
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -150,17 +146,15 @@ public class ItemFragment extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
 
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                String img_path = jsonObject1.getString("poster_path");
-                                String f_name = jsonObject1.getString("original_title");
-
+                                String poster_path = jsonObject1.getString("poster_path");
+                                String original_title = jsonObject1.getString("original_title");
                                 String over_view = jsonObject1.getString("overview");
                                 String release_date = jsonObject1.getString("release_date");
                                 String vote_average = jsonObject1.getString("vote_average");
-
                                 String id = jsonObject1.getString("id");
 
 
-                                ItemModel model = new ItemModel(img_path, f_name, over_view, release_date, vote_average,id);
+                                ItemModel model = new ItemModel(poster_path, original_title, over_view, release_date, vote_average, id);
                                 mDataSet.add(model);
                                 mAdapter.notifyDataSetChanged();
                             }
@@ -169,7 +163,7 @@ public class ItemFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        ;
+
 
 
                     }
@@ -181,7 +175,6 @@ public class ItemFragment extends Fragment {
                     }
                 });
 
-        //   requestQueue.add(stringRequest);
         MySingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(stringRequest);
 
 

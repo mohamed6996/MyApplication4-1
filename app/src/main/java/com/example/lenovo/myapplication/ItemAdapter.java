@@ -3,6 +3,7 @@ package com.example.lenovo.myapplication;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -32,7 +33,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.VH> {
     }
 
 
-
     @Override
 
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -56,13 +56,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.VH> {
     }
 
     public static class VH extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView imageView;
+        ImageView imageView, favorits;
         TextView textView;
 
         Context vhContext;
         List<ItemModel> vhDataSet = new ArrayList<>();
 
-        public VH(View itemView, Context context, List<ItemModel> vhDataSet) {
+        public VH(View itemView, final Context context, final List<ItemModel> vhDataSet) {
             super(itemView);
 
             this.vhContext = context;
@@ -71,6 +71,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.VH> {
 
             imageView = (ImageView) itemView.findViewById(R.id.img);
             imageView.setOnClickListener(this);
+
+            favorits = (ImageView) itemView.findViewById(R.id.img_favorit);
+
+
         }
 
         @Override
@@ -78,6 +82,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.VH> {
 
             int position = getAdapterPosition();
             ItemModel m = vhDataSet.get(position);
+
+
 
 
            /* Intent intent = new Intent(this.vhContext, DetailActivity.class);
@@ -88,22 +94,22 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.VH> {
             this.vhContext.startActivity(intent);*/
 
 
-/*
             Bundle b = new Bundle();
             b.putString("OVER_VIEW_KEY", m.getOver_view());
             b.putString("RELEASE_DATE_KEY", m.getRelease_date());
             b.putString("VOTE_AVERAGE_KEY", m.getVote_average());
-            b.putString("IMAGE_KEY", m.getImagePath());*/
+            b.putString("IMAGE_KEY", m.getImagePath());
+            b.putString("ID_KEY", m.getId());
 
 
             if (MainActivity.mTWO_PANE) {
                 DetailFragment detailFragment = new DetailFragment();
-                Bundle b = new Bundle();
+              /*  Bundle b = new Bundle();
                 b.putString("OVER_VIEW_KEY", m.getOver_view());
                 b.putString("RELEASE_DATE_KEY", m.getRelease_date());
                 b.putString("VOTE_AVERAGE_KEY", m.getVote_average());
                 b.putString("IMAGE_KEY", m.getImagePath());
-                b.putString("ID_KEY", m.getId());
+                b.putString("ID_KEY", m.getId());*/
                 detailFragment.setArguments(b);
 
                 ((MainActivity) vhContext).getSupportFragmentManager().beginTransaction()
@@ -111,11 +117,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.VH> {
                         .commit();
             } else {
                 Intent intent = new Intent(this.vhContext, DetailActivity.class);
-                intent.putExtra("OVER_VIEW_KEY", m.getOver_view());
+               /* intent.putExtra("OVER_VIEW_KEY", m.getOver_view());
                 intent.putExtra("RELEASE_DATE_KEY", m.getRelease_date());
                 intent.putExtra("VOTE_AVERAGE_KEY", m.getVote_average());
                 intent.putExtra("IMAGE_KEY", m.getImagePath());
-                intent.putExtra("ID_KEY", m.getId());
+                intent.putExtra("ID_KEY", m.getId());*/
+                intent.putExtras(b);
                 this.vhContext.startActivity(intent);
             }
 

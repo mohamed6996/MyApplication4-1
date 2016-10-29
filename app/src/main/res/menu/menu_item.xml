@@ -14,5 +14,11 @@
         android:orderInCategory="100"
         tools:ignore="AppCompatResource"></item>
 
+    <item android:title="favorits"
+        android:id="@+id/favorits"
+        android:showAsAction="never"
+        android:orderInCategory="100"
+        tools:ignore="AppCompatResource"></item>
+
 
 </menu>

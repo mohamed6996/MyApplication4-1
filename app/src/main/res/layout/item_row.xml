@@ -12,37 +12,40 @@
         android:elevation="3dp"
         card_view:cardCornerRadius="10dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/img"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:clickable="true" />
-
-            <TextView
-                android:id="@+id/count"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/img"
-                android:paddingBottom="1dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:textSize="12sp" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/overflow"
-                android:layout_width="20dp"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/count"
-                android:layout_marginTop="0dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_dots" />
+                android:id="@+id/img"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:clickable="true" />
 
-        </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/count"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/img"
+                    android:layout_weight="3"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:id="@+id/img_favorit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@mipmap/ic_favorite" />
+
+            </LinearLayout>
+
+        </LinearLayout>
     </android.support.v7.widget.CardView>
 
 </LinearLayout>

@@ -29,11 +29,11 @@ import org.json.JSONObject;
  * A simple {@link Fragment} subclass.
  */
 public class DetailFragment extends Fragment {
-    TextView overView, releaseDate, voteAvg , review_field ;
+    TextView overView, releaseDate, voteAvg, review_field;
     ImageView image_path;
     Button trailer, review;
     String trailer_id, key;
-    String review_content ;
+    String review_content;
 
 
     public DetailFragment() {
@@ -105,6 +105,29 @@ public class DetailFragment extends Fragment {
         });
 
 
+        Bundle bundle = null;
+        if (MainActivity.mTWO_PANE) {
+            bundle = getArguments();
+        } else {
+            bundle = getActivity().getIntent().getExtras();
+        }
+
+        String over_view = bundle.getString("OVER_VIEW_KEY");
+        String release_date = bundle.getString("RELEASE_DATE_KEY");
+        String vote_avg = bundle.getString("VOTE_AVERAGE_KEY");
+        String image_key = bundle.getString("IMAGE_KEY");
+        String id_key = bundle.getString("ID_KEY");
+
+        overView.setText(over_view);
+        releaseDate.setText(release_date);
+        voteAvg.setText(vote_avg);
+        String full_image = Constants.IMG_BASE + image_key;
+        Glide.with(this).load(full_image).placeholder(R.drawable.ic_dots).into(image_path);
+        trailer_id = id_key ;
+
+
+/*
+
         if (MainActivity.mTWO_PANE) {
             Bundle bundle = getArguments();
             overView.setText(bundle.getString("OVER_VIEW_KEY"));
@@ -127,6 +150,7 @@ public class DetailFragment extends Fragment {
 
             trailer_id = getActivity().getIntent().getStringExtra("ID_KEY");
         }
+*/
 
 
         return view;
