@@ -19,11 +19,14 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,6 +101,30 @@ public class ItemFragment extends Fragment {
             if (mDataSet != null) mDataSet.clear();
             initDataset(Constants.TOP_RATED);
             return true;
+        }
+        if (R.id.favorits == id){
+            SharedPreferences sp = getActivity().getSharedPreferences("FAVORITE", getActivity().MODE_PRIVATE);
+            String jsonString = sp.getString("jsonString", null);
+            Gson gson = new Gson();
+            ItemModel model = gson.fromJson(jsonString, ItemModel.class);
+            if (mDataSet != null) mDataSet.clear();
+            mDataSet.add(model);
+            mAdapter.notifyDataSetChanged();
+            return true ;
+/*
+            SharedPreferences sp = getActivity().getSharedPreferences("FAVORITE", getActivity().MODE_PRIVATE);
+            String jsonString = sp.getString("jsonString", null);
+            Gson gson = new Gson();
+            List<ItemModel> a = new ArrayList<>();
+            Type type = new TypeToken<ArrayList<ItemModel>>() {}.getType();
+            a = gson.fromJson(jsonString,type );
+            if (mDataSet != null) mDataSet.clear();
+            for (int i = 0 ; i < a.size(); i++){
+                ItemModel m = a.get(i);
+                mDataSet.add(m);
+                mAdapter.notifyDataSetChanged();
+            }
+            return true ;*/
         }
 
 

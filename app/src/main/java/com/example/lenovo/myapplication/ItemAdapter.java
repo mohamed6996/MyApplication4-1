@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,6 +77,44 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.VH> {
             imageView.setOnClickListener(this);
 
             favorits = (ImageView) itemView.findViewById(R.id.img_favorit);
+            favorits.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    ItemModel itemModel = vhDataSet.get(position);
+
+                    SharedPreferences sharedPreferences = vhContext.getSharedPreferences("FAVORITE", vhContext.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                    Gson gson = new Gson();
+                    String jsonString = gson.toJson(itemModel, ItemModel.class);
+
+                    editor.putString("jsonString", jsonString);
+                    editor.apply();
+
+                   /* SharedPreferences sharedPreferences = vhContext.getSharedPreferences("FAVORITE", vhContext.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    int position = getAdapterPosition();
+                    ItemModel itemModel = vhDataSet.get(position);
+
+                    ArrayList<ItemModel> favorits = new ArrayList<>();
+                    favorits.add(itemModel);
+
+                    Type type = new TypeToken<ArrayList<ItemModel>>() {}.getType();
+
+                    Gson gson = new Gson();
+                    String jsonString = gson.toJson(favorits,type );
+
+                    editor.putString("jsonString", jsonString);
+                    editor.apply();*/
+
+
+
+
+
+
+                }
+            });
 
 
         }
@@ -83,17 +125,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.VH> {
             int position = getAdapterPosition();
             ItemModel m = vhDataSet.get(position);
 
-
-
-
-           /* Intent intent = new Intent(this.vhContext, DetailActivity.class);
-            intent.putExtra("OVER_VIEW_KEY", m.getOver_view());
-            intent.putExtra("RELEASE_DATE_KEY", m.getRelease_date());
-            intent.putExtra("VOTE_AVERAGE_KEY", m.getVote_average());
-            intent.putExtra("IMAGE_KEY", m.getImagePath());
-            this.vhContext.startActivity(intent);*/
-
-
             Bundle b = new Bundle();
             b.putString("OVER_VIEW_KEY", m.getOver_view());
             b.putString("RELEASE_DATE_KEY", m.getRelease_date());
@@ -101,27 +132,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.VH> {
             b.putString("IMAGE_KEY", m.getImagePath());
             b.putString("ID_KEY", m.getId());
 
-
             if (MainActivity.mTWO_PANE) {
                 DetailFragment detailFragment = new DetailFragment();
-              /*  Bundle b = new Bundle();
-                b.putString("OVER_VIEW_KEY", m.getOver_view());
-                b.putString("RELEASE_DATE_KEY", m.getRelease_date());
-                b.putString("VOTE_AVERAGE_KEY", m.getVote_average());
-                b.putString("IMAGE_KEY", m.getImagePath());
-                b.putString("ID_KEY", m.getId());*/
                 detailFragment.setArguments(b);
-
                 ((MainActivity) vhContext).getSupportFragmentManager().beginTransaction()
                         .replace(R.id.detail_container, detailFragment)
                         .commit();
             } else {
                 Intent intent = new Intent(this.vhContext, DetailActivity.class);
-               /* intent.putExtra("OVER_VIEW_KEY", m.getOver_view());
-                intent.putExtra("RELEASE_DATE_KEY", m.getRelease_date());
-                intent.putExtra("VOTE_AVERAGE_KEY", m.getVote_average());
-                intent.putExtra("IMAGE_KEY", m.getImagePath());
-                intent.putExtra("ID_KEY", m.getId());*/
                 intent.putExtras(b);
                 this.vhContext.startActivity(intent);
             }

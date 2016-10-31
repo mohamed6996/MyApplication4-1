@@ -126,33 +126,6 @@ public class DetailFragment extends Fragment {
         trailer_id = id_key ;
 
 
-/*
-
-        if (MainActivity.mTWO_PANE) {
-            Bundle bundle = getArguments();
-            overView.setText(bundle.getString("OVER_VIEW_KEY"));
-            releaseDate.setText(bundle.getString("RELEASE_DATE_KEY"));
-            voteAvg.setText(bundle.getString("VOTE_AVERAGE_KEY"));
-
-            String full_image = Constants.IMG_BASE + bundle.getString("IMAGE_KEY");
-            Glide.with(this).load(full_image).placeholder(R.drawable.ic_dots).into(image_path);
-
-            trailer_id = bundle.getString("ID_KEY");
-
-
-        } else {
-            String full_image = Constants.IMG_BASE + getActivity().getIntent().getStringExtra("IMAGE_KEY");
-
-            overView.setText(getActivity().getIntent().getStringExtra("OVER_VIEW_KEY"));
-            releaseDate.setText(getActivity().getIntent().getStringExtra("RELEASE_DATE_KEY"));
-            voteAvg.setText(getActivity().getIntent().getStringExtra("VOTE_AVERAGE_KEY"));
-            Glide.with(this).load(full_image).placeholder(R.drawable.ic_dots).into(image_path);
-
-            trailer_id = getActivity().getIntent().getStringExtra("ID_KEY");
-        }
-*/
-
-
         return view;
     }
 
