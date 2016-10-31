@@ -2,6 +2,8 @@ package com.example.lenovo.myapplication;
 
 
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,6 +21,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.lenovo.myapplication.db.MovieHelper;
+import com.example.lenovo.myapplication.db.MoviesContract;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -102,17 +106,40 @@ public class ItemFragment extends Fragment {
             initDataset(Constants.TOP_RATED);
             return true;
         }
-        if (R.id.favorits == id){
-            SharedPreferences sp = getActivity().getSharedPreferences("FAVORITE", getActivity().MODE_PRIVATE);
+        if (R.id.favorits == id) {
+
+            Gson gson = new Gson();
+            MovieHelper movieHelper = new MovieHelper(getContext());
+            SQLiteDatabase db = movieHelper.getReadableDatabase();
+
+            Cursor cursor = db.query(MoviesContract.MovieEntry.TABLE_NAME, null, null, null, null, null, null);
+            if (mDataSet != null) mDataSet.clear();
+
+
+            try {
+                while (cursor.moveToNext()) {
+                    String jsonString = cursor.getString(1);
+                    ItemModel model = gson.fromJson(jsonString, ItemModel.class);
+                    mDataSet.add(model);
+                    mAdapter.notifyDataSetChanged();
+                }
+            } finally {
+                cursor.close();
+                return true;
+
+            }
+
+
+          /*  SharedPreferences sp = getActivity().getSharedPreferences("FAVORITE", getActivity().MODE_PRIVATE);
             String jsonString = sp.getString("jsonString", null);
             Gson gson = new Gson();
             ItemModel model = gson.fromJson(jsonString, ItemModel.class);
             if (mDataSet != null) mDataSet.clear();
             mDataSet.add(model);
             mAdapter.notifyDataSetChanged();
-            return true ;
-/*
-            SharedPreferences sp = getActivity().getSharedPreferences("FAVORITE", getActivity().MODE_PRIVATE);
+            return true ;*/
+
+           /* SharedPreferences sp = getActivity().getSharedPreferences("FAVORITE", getActivity().MODE_PRIVATE);
             String jsonString = sp.getString("jsonString", null);
             Gson gson = new Gson();
             List<ItemModel> a = new ArrayList<>();
@@ -190,7 +217,6 @@ public class ItemFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
 
 
                     }

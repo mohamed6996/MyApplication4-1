@@ -1,9 +1,11 @@
 package com.example.lenovo.myapplication;
 
 import android.app.ActivityOptions;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -14,8 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.lenovo.myapplication.db.MovieHelper;
+import com.example.lenovo.myapplication.db.MoviesContract;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -80,7 +85,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.VH> {
             favorits.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int position = getAdapterPosition();
+                   /* int position = getAdapterPosition();
                     ItemModel itemModel = vhDataSet.get(position);
 
                     SharedPreferences sharedPreferences = vhContext.getSharedPreferences("FAVORITE", vhContext.MODE_PRIVATE);
@@ -90,23 +95,23 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.VH> {
                     String jsonString = gson.toJson(itemModel, ItemModel.class);
 
                     editor.putString("jsonString", jsonString);
-                    editor.apply();
+                    editor.apply();*/
 
-                   /* SharedPreferences sharedPreferences = vhContext.getSharedPreferences("FAVORITE", vhContext.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
                     int position = getAdapterPosition();
                     ItemModel itemModel = vhDataSet.get(position);
 
-                    ArrayList<ItemModel> favorits = new ArrayList<>();
-                    favorits.add(itemModel)
-                    Type type = new TypeToken<ArrayList<ItemModel>>() {}.getType();
-
                     Gson gson = new Gson();
-                    String jsonString = gson.toJson(favorits,type );
+                    String jsonString = gson.toJson(itemModel, ItemModel.class);
 
-                    editor.putString("jsonString", jsonString);
-                    editor.apply();*/
 
+                    MovieHelper movieHelper = new MovieHelper(vhContext);
+                    SQLiteDatabase db = movieHelper.getWritableDatabase();
+
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(MoviesContract.MovieEntry.COLUMN_NAME_TITLE, jsonString);
+
+                    Long row_id = db.insert(MoviesContract.MovieEntry.TABLE_NAME, null, contentValues);
+                    Toast.makeText(vhContext, "" + row_id , Toast.LENGTH_LONG).show();
 
                 }
             });
