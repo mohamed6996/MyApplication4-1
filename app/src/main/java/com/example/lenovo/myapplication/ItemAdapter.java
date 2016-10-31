@@ -98,8 +98,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.VH> {
                     ItemModel itemModel = vhDataSet.get(position);
 
                     ArrayList<ItemModel> favorits = new ArrayList<>();
-                    favorits.add(itemModel);
-
+                    favorits.add(itemModel)
                     Type type = new TypeToken<ArrayList<ItemModel>>() {}.getType();
 
                     Gson gson = new Gson();
@@ -107,10 +106,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.VH> {
 
                     editor.putString("jsonString", jsonString);
                     editor.apply();*/
-
-
-
-
 
 
                 }
