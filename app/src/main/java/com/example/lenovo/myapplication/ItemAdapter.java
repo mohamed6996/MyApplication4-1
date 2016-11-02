@@ -5,9 +5,17 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -64,8 +72,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.VH> {
         return mDataset.size();
     }
 
+
     public static class VH extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView imageView, favorits;
+        ImageView imageView;
         TextView textView;
 
         Context vhContext;
@@ -81,21 +90,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.VH> {
             imageView = (ImageView) itemView.findViewById(R.id.img);
             imageView.setOnClickListener(this);
 
-            favorits = (ImageView) itemView.findViewById(R.id.img_favorit);
-            favorits.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                   /* int position = getAdapterPosition();
-                    ItemModel itemModel = vhDataSet.get(position);
 
-                    SharedPreferences sharedPreferences = vhContext.getSharedPreferences("FAVORITE", vhContext.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                    Gson gson = new Gson();
-                    String jsonString = gson.toJson(itemModel, ItemModel.class);
+                  /*  favorits.setBackgroundColor(vhContext.getResources().getColor(R.color.favorite_color));
+                    RecyclerView.Adapter a = new ItemAdapter();
+                    a.notifyItemChanged(getAdapterPosition());
+                    a.notifyDataSetChanged();*/
 
-                    editor.putString("jsonString", jsonString);
-                    editor.apply();*/
+                 /*   int color = Color.parseColor("#AE6118"); //The color u want
+                    favorits.setColorFilter(color);
 
                     int position = getAdapterPosition();
                     ItemModel itemModel = vhDataSet.get(position);
@@ -109,12 +112,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.VH> {
 
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(MoviesContract.MovieEntry.COLUMN_NAME_TITLE, jsonString);
+                    Long row_id = db.insert(MoviesContract.MovieEntry.TABLE_NAME, null, contentValues);*/
 
-                    Long row_id = db.insert(MoviesContract.MovieEntry.TABLE_NAME, null, contentValues);
-                    Toast.makeText(vhContext, "" + row_id , Toast.LENGTH_LONG).show();
 
-                }
-            });
+
 
 
         }
@@ -126,6 +127,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.VH> {
             ItemModel m = vhDataSet.get(position);
 
             Bundle b = new Bundle();
+
+            Gson gson = new Gson();
+            String jsonString = gson.toJson(m, ItemModel.class);
+            b.putString("jsonString", jsonString);
+
             b.putString("OVER_VIEW_KEY", m.getOver_view());
             b.putString("RELEASE_DATE_KEY", m.getRelease_date());
             b.putString("VOTE_AVERAGE_KEY", m.getVote_average());

@@ -25,6 +25,8 @@ import com.example.lenovo.myapplication.db.MovieHelper;
 import com.example.lenovo.myapplication.db.MoviesContract;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.joanzapata.iconify.Iconify;
+import com.joanzapata.iconify.fonts.FontAwesomeModule;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,6 +52,7 @@ public class ItemFragment extends Fragment {
 
     public ItemFragment() {
         // Required empty public constructor
+
     }
 
 
@@ -122,6 +125,7 @@ public class ItemFragment extends Fragment {
                     ItemModel model = gson.fromJson(jsonString, ItemModel.class);
                     mDataSet.add(model);
                     mAdapter.notifyDataSetChanged();
+
                 }
             } finally {
                 cursor.close();
