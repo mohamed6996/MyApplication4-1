@@ -6,12 +6,13 @@ package com.example.lenovo.myapplication;
 
 public class ItemModel {
 
-    String image_path, film_name, over_view, release_date, vote_average, id;
+    String image_path,backdrop_path, film_name, over_view, release_date, vote_average, id;
 
 
-    public ItemModel(String overView, String film_name, String over_view, String releaseDate, String voreAverage, String id) {
+    public ItemModel(String poster_path,String backdrop_path , String film_name, String over_view, String releaseDate, String voreAverage, String id) {
         this.film_name = film_name;
-        this.image_path = overView;
+        this.image_path = poster_path;
+        this.backdrop_path = backdrop_path;
         this.over_view = over_view;
         this.release_date = releaseDate;
         this.vote_average = voreAverage;
@@ -19,7 +20,13 @@ public class ItemModel {
 
     }
 
+    public String getBackdrop_path() {
+        return backdrop_path;
+    }
 
+    public void setBackdrop_path(String backdrop_path) {
+        this.backdrop_path = backdrop_path;
+    }
 
     public String getImagePath() {
         return image_path;

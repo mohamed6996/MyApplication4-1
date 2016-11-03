@@ -14,6 +14,11 @@
         tools:context="com.example.lenovo.myapplication.DetailActivity">
 
         <ImageView
+            android:id="@+id/back_path"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ImageView
             android:id="@+id/img"
             android:layout_width="300dp"
             android:layout_height="300dp" />
@@ -61,12 +66,12 @@
               android:background="@color/favorite_color_white"/>-->
 
         <com.joanzapata.iconify.widget.IconTextView
-            android:text="{fa-heart-o}"
-            android:textSize="30sp"
-            android:textColor="@color/favorite_color_white"
-            android:layout_height="wrap_content"
+            android:id="@+id/favor"
             android:layout_width="wrap_content"
-            android:id="@+id/favor"/>
+            android:layout_height="wrap_content"
+            android:text="{fa-heart-o}"
+            android:textColor="@color/favorite_color_white"
+            android:textSize="30sp" />
 
     </LinearLayout>
 

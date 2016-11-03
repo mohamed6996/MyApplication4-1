@@ -21,6 +21,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".DetailActivity"></activity>
+        
+        <provider
+            android:authorities="com.example.lenovo.myapplication"
+            android:name=".db.MovieProvider" ></provider>
+
     </application>
 
 </manifest>

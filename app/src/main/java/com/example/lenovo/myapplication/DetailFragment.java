@@ -42,14 +42,14 @@ import org.json.JSONObject;
  */
 public class DetailFragment extends Fragment {
     TextView overView, releaseDate, voteAvg, review_field, favorite;
-    ImageView image_path;
+    ImageView image_path, back_path ;
     Button trailer, review;
     String trailer_id, key;
     String review_content;
     String json;
     boolean clicked;
 
-    String over_view, release_date, vote_avg, image_key, id_key;
+    String over_view, release_date, vote_avg, image_key,backDrop_path, id_key;
 
 
     public DetailFragment() {
@@ -74,6 +74,7 @@ public class DetailFragment extends Fragment {
         release_date = bundle.getString("RELEASE_DATE_KEY");
         vote_avg = bundle.getString("VOTE_AVERAGE_KEY");
         image_key = bundle.getString("IMAGE_KEY");
+        backDrop_path = bundle.getString("BACKDROP_PATH_KEY");
         id_key = bundle.getString("ID_KEY");
         json = bundle.getString("jsonString");
 
@@ -106,6 +107,7 @@ public class DetailFragment extends Fragment {
         releaseDate = (TextView) view.findViewById(R.id.release_date);
         voteAvg = (TextView) view.findViewById(R.id.vote_average);
         image_path = (ImageView) view.findViewById(R.id.img);
+        back_path = (ImageView) view.findViewById(R.id.back_path);
         trailer = (Button) view.findViewById(R.id.trailer);
         review_field = (TextView) view.findViewById(R.id.review_field);
         favorite = (TextView) view.findViewById(R.id.favor);
@@ -114,7 +116,12 @@ public class DetailFragment extends Fragment {
         releaseDate.setText(release_date);
         voteAvg.setText(vote_avg);
         String full_image = Constants.IMG_BASE + image_key;
+        String full_back_image = Constants.IMG_BASE + backDrop_path;
+
+
         Glide.with(this).load(full_image).placeholder(R.drawable.ic_dots).into(image_path);
+        Glide.with(this).load(full_back_image).placeholder(R.drawable.ic_dots).into(back_path);
+
         trailer_id = id_key;
 
         trailer.setOnClickListener(new View.OnClickListener() {
@@ -171,46 +178,6 @@ public class DetailFragment extends Fragment {
         });
 
 
-      /*  favorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // The toggle is enabled
-                    MovieHelper movieHelper = new MovieHelper(getContext());
-                    SQLiteDatabase db = movieHelper.getWritableDatabase();
-
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put(MoviesContract.MovieEntry.COLUMN_NAME_TITLE, json);
-                    db.insert(MoviesContract.MovieEntry.TABLE_NAME, null, contentValues);
-
-                } else {
-                    // The toggle is disabled
-                    Toast.makeText(getContext(), "already exist", Toast.LENGTH_LONG).show();
-
-
-
-                }
-            }
-        });*/
-
-
-              /*  ColorDrawable drawable = (ColorDrawable) favorite.getBackground();
-
-                if (drawable.getColor() == R.color.favorite_color_white){
-                    MovieHelper movieHelper = new MovieHelper(getContext());
-                    SQLiteDatabase db = movieHelper.getWritableDatabase();
-
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put(MoviesContract.MovieEntry.COLUMN_NAME_TITLE, json);
-                    db.insert(MoviesContract.MovieEntry.TABLE_NAME, null, contentValues);
-
-                    favorite.setBackgroundColor(R.color.favorite_color_red);
-                }
-                else {
-                    Toast.makeText(getContext(), "already exist", Toast.LENGTH_LONG).show();
-                }*/
-
-
-        // font awesome
 
 
         return view;

@@ -134,28 +134,6 @@ public class ItemFragment extends Fragment {
             }
 
 
-          /*  SharedPreferences sp = getActivity().getSharedPreferences("FAVORITE", getActivity().MODE_PRIVATE);
-            String jsonString = sp.getString("jsonString", null);
-            Gson gson = new Gson();
-            ItemModel model = gson.fromJson(jsonString, ItemModel.class);
-            if (mDataSet != null) mDataSet.clear();
-            mDataSet.add(model);
-            mAdapter.notifyDataSetChanged();
-            return true ;*/
-
-           /* SharedPreferences sp = getActivity().getSharedPreferences("FAVORITE", getActivity().MODE_PRIVATE);
-            String jsonString = sp.getString("jsonString", null);
-            Gson gson = new Gson();
-            List<ItemModel> a = new ArrayList<>();
-            Type type = new TypeToken<ArrayList<ItemModel>>() {}.getType();
-            a = gson.fromJson(jsonString,type );
-            if (mDataSet != null) mDataSet.clear();
-            for (int i = 0 ; i < a.size(); i++){
-                ItemModel m = a.get(i);
-                mDataSet.add(m);
-                mAdapter.notifyDataSetChanged();
-            }
-            return true ;*/
         }
 
 
@@ -205,14 +183,14 @@ public class ItemFragment extends Fragment {
 
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                 String poster_path = jsonObject1.getString("poster_path");
+                                String backdrop_path = jsonObject1.getString("backdrop_path");
                                 String original_title = jsonObject1.getString("original_title");
                                 String over_view = jsonObject1.getString("overview");
                                 String release_date = jsonObject1.getString("release_date");
                                 String vote_average = jsonObject1.getString("vote_average");
                                 String id = jsonObject1.getString("id");
 
-
-                                ItemModel model = new ItemModel(poster_path, original_title, over_view, release_date, vote_average, id);
+                                ItemModel model = new ItemModel(poster_path,backdrop_path, original_title, over_view, release_date, vote_average, id);
                                 mDataSet.add(model);
                                 mAdapter.notifyDataSetChanged();
                             }

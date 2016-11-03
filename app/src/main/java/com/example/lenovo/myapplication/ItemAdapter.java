@@ -136,6 +136,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.VH> {
             b.putString("RELEASE_DATE_KEY", m.getRelease_date());
             b.putString("VOTE_AVERAGE_KEY", m.getVote_average());
             b.putString("IMAGE_KEY", m.getImagePath());
+            b.putString("BACKDROP_PATH_KEY", m.getBackdrop_path());
             b.putString("ID_KEY", m.getId());
 
             if (MainActivity.mTWO_PANE) {
