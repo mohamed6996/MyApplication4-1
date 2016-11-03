@@ -7,10 +7,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,15 +45,16 @@ import org.json.JSONObject;
  * A simple {@link Fragment} subclass.
  */
 public class DetailFragment extends Fragment {
-    TextView overView, releaseDate, voteAvg, review_field, favorite;
-    ImageView image_path, back_path ;
-    Button trailer, review;
+    TextView FilmName, overView, releaseDate, voteAvg, review_field, favorite;
+    ImageView image_path, back_path;
+    Button review;
     String trailer_id, key;
     String review_content;
     String json;
     boolean clicked;
+    FloatingActionButton trailer;
 
-    String over_view, release_date, vote_avg, image_key,backDrop_path, id_key;
+    String film_name, over_view, release_date, vote_avg, image_key, backDrop_path, id_key;
 
 
     public DetailFragment() {
@@ -69,7 +74,7 @@ public class DetailFragment extends Fragment {
         } else {
             bundle = getActivity().getIntent().getExtras();
         }
-
+        film_name = bundle.getString("FILM_NAME_KEY");
         over_view = bundle.getString("OVER_VIEW_KEY");
         release_date = bundle.getString("RELEASE_DATE_KEY");
         vote_avg = bundle.getString("VOTE_AVERAGE_KEY");
@@ -102,16 +107,20 @@ public class DetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        toolbar.setTitle(film_name);
 
+        FilmName = (TextView) view.findViewById(R.id.film_name);
         overView = (TextView) view.findViewById(R.id.over_view);
         releaseDate = (TextView) view.findViewById(R.id.release_date);
         voteAvg = (TextView) view.findViewById(R.id.vote_average);
         image_path = (ImageView) view.findViewById(R.id.img);
         back_path = (ImageView) view.findViewById(R.id.back_path);
-        trailer = (Button) view.findViewById(R.id.trailer);
+        trailer = (FloatingActionButton) view.findViewById(R.id.fab);
         review_field = (TextView) view.findViewById(R.id.review_field);
         favorite = (TextView) view.findViewById(R.id.favor);
 
+        FilmName.setText(film_name);
         overView.setText(over_view);
         releaseDate.setText(release_date);
         voteAvg.setText(vote_avg);
@@ -121,6 +130,7 @@ public class DetailFragment extends Fragment {
 
         Glide.with(this).load(full_image).placeholder(R.drawable.ic_dots).into(image_path);
         Glide.with(this).load(full_back_image).placeholder(R.drawable.ic_dots).into(back_path);
+
 
         trailer_id = id_key;
 
@@ -176,8 +186,6 @@ public class DetailFragment extends Fragment {
                 }
             }
         });
-
-
 
 
         return view;

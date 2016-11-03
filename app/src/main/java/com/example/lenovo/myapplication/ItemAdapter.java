@@ -131,7 +131,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.VH> {
             Gson gson = new Gson();
             String jsonString = gson.toJson(m, ItemModel.class);
             b.putString("jsonString", jsonString);
-
+            b.putString("FILM_NAME_KEY", m.getFilm_name());
             b.putString("OVER_VIEW_KEY", m.getOver_view());
             b.putString("RELEASE_DATE_KEY", m.getRelease_date());
             b.putString("VOTE_AVERAGE_KEY", m.getVote_average());
