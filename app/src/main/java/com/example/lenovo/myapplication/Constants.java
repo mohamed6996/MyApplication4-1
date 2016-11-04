@@ -13,5 +13,9 @@ public class Constants {
 
     public static final String IMG_BASE = "https://image.tmdb.org/t/p/w185";
 
+    public static final String BACK_DROP_PATH = "https://image.tmdb.org/t/p/w500";
+
+
+
 
 }

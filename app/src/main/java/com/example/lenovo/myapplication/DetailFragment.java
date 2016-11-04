@@ -109,6 +109,13 @@ public class DetailFragment extends Fragment {
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         toolbar.setTitle(film_name);
+        toolbar.setNavigationIcon(getActivity().getResources().getDrawable(R.mipmap.ic_arrow_back));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
 
         FilmName = (TextView) view.findViewById(R.id.film_name);
         overView = (TextView) view.findViewById(R.id.over_view);
@@ -125,7 +132,7 @@ public class DetailFragment extends Fragment {
         releaseDate.setText(release_date);
         voteAvg.setText(vote_avg);
         String full_image = Constants.IMG_BASE + image_key;
-        String full_back_image = Constants.IMG_BASE + backDrop_path;
+        String full_back_image = Constants.BACK_DROP_PATH + backDrop_path;
 
 
         Glide.with(this).load(full_image).placeholder(R.drawable.ic_dots).into(image_path);
