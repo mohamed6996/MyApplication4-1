@@ -4,26 +4,20 @@ package com.example.lenovo.myapplication;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -32,7 +26,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.example.lenovo.myapplication.db.MovieHelper;
 import com.example.lenovo.myapplication.db.MoviesContract;
-import com.google.gson.Gson;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 
@@ -164,6 +157,12 @@ public class DetailFragment extends Fragment {
             public void onClick(View v) {
 
                 String responce = review_content;
+                ReviewFragment dialog =new ReviewFragment();
+                Bundle args = new Bundle();
+                args.putString("reviewKey", responce);
+                dialog.setArguments(args);
+                // TODO modify to work on tablets
+                getFragmentManager().beginTransaction().replace(R.id.activity_detail, dialog).addToBackStack(null).commit();
                 review_field.setText(responce);
 
             }
