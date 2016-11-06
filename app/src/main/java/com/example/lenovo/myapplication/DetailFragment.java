@@ -186,8 +186,16 @@ public class DetailFragment extends Fragment {
 
 
                 } else {
+                    // Filter results WHERE "title" = 'My Title'
+                    String selection = MoviesContract.MovieEntry.COLUMN_NAME_TITLE + " = ?";
+                    String[] selectionArgs = {json };
 
-                    Toast.makeText(getContext(), "already exist", Toast.LENGTH_LONG).show();
+
+                    MovieHelper movieHelper = new MovieHelper(getContext());
+                    SQLiteDatabase db = movieHelper.getWritableDatabase();
+                    db.delete(MoviesContract.MovieEntry.TABLE_NAME, selection ,selectionArgs);
+
+                   // Toast.makeText(getContext(), "already exist", Toast.LENGTH_LONG).show();
 
                 }
             }

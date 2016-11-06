@@ -118,7 +118,6 @@ public class ItemFragment extends Fragment {
             Cursor cursor = db.query(MoviesContract.MovieEntry.TABLE_NAME, null, null, null, null, null, null);
             if (mDataSet != null) mDataSet.clear();
 
-
             try {
                 while (cursor.moveToNext()) {
                     String jsonString = cursor.getString(1);
@@ -190,7 +189,7 @@ public class ItemFragment extends Fragment {
                                 String vote_average = jsonObject1.getString("vote_average");
                                 String id = jsonObject1.getString("id");
 
-                                ItemModel model = new ItemModel(poster_path,backdrop_path, original_title, over_view, release_date, vote_average, id);
+                                ItemModel model = new ItemModel(poster_path, backdrop_path, original_title, over_view, release_date, vote_average, id);
                                 mDataSet.add(model);
                                 mAdapter.notifyDataSetChanged();
                             }
