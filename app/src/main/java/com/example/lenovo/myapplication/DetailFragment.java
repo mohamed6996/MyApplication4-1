@@ -174,8 +174,6 @@ public class DetailFragment extends Fragment {
         });
 
 
-
-
         likeButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
@@ -207,19 +205,22 @@ public class DetailFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        String jsonString = null;
+        StringBuilder builder = new StringBuilder();
         MovieHelper movieHelper = new MovieHelper(getActivity());
         SQLiteDatabase db = movieHelper.getReadableDatabase();
         Cursor cursor = db.query(MoviesContract.MovieEntry.TABLE_NAME, null, null, null, null, null, null);
         while (cursor.moveToNext()) {
-            String jsonString = cursor.getString(1);
-            if (jsonString.equals(json)) {
-                likeButton.setLiked(true);
-            }
-            else {
-                likeButton.setLiked(false);
+            jsonString = cursor.getString(1);
+            builder.append(jsonString);
+        }
 
-            }
+        jsonString = builder.toString();
+
+        if (jsonString.contains(json)) {
+            likeButton.setLiked(true);
+        } else {
+            likeButton.setLiked(false);
 
         }
 
