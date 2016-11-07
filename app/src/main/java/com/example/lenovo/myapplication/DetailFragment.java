@@ -4,6 +4,8 @@ package com.example.lenovo.myapplication;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,6 +30,8 @@ import com.example.lenovo.myapplication.db.MovieHelper;
 import com.example.lenovo.myapplication.db.MoviesContract;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,14 +42,14 @@ import org.json.JSONObject;
  * A simple {@link Fragment} subclass.
  */
 public class DetailFragment extends Fragment {
-    TextView FilmName, overView, releaseDate, voteAvg, review_field, favorite;
+    TextView FilmName, overView, releaseDate, voteAvg, review_field;
     ImageView image_path, back_path;
     Button review;
     String trailer_id, key;
     String review_content;
     String json;
-    boolean clicked;
     FloatingActionButton trailer;
+    LikeButton likeButton;
 
     String film_name, over_view, release_date, vote_avg, image_key, backDrop_path, id_key;
 
@@ -59,8 +63,7 @@ public class DetailFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Iconify
-                .with(new FontAwesomeModule());
+
         Bundle bundle = null;
         if (MainActivity.mTWO_PANE) {
             bundle = getArguments();
@@ -92,6 +95,7 @@ public class DetailFragment extends Fragment {
 
         fetch_review(full);
 
+
     }
 
 
@@ -118,7 +122,8 @@ public class DetailFragment extends Fragment {
         back_path = (ImageView) view.findViewById(R.id.back_path);
         trailer = (FloatingActionButton) view.findViewById(R.id.fab);
         review_field = (TextView) view.findViewById(R.id.review_field);
-        favorite = (TextView) view.findViewById(R.id.favor);
+        likeButton = (LikeButton) view.findViewById(R.id.star_button);
+
 
         FilmName.setText(film_name);
         overView.setText(over_view);
@@ -157,7 +162,7 @@ public class DetailFragment extends Fragment {
             public void onClick(View v) {
 
                 String responce = review_content;
-                ReviewFragment dialog =new ReviewFragment();
+                ReviewFragment dialog = new ReviewFragment();
                 Bundle args = new Bundle();
                 args.putString("reviewKey", responce);
                 dialog.setArguments(args);
@@ -169,40 +174,55 @@ public class DetailFragment extends Fragment {
         });
 
 
-        clicked = false;
 
-        favorite.setOnClickListener(new View.OnClickListener() {
+
+        likeButton.setOnLikeListener(new OnLikeListener() {
             @Override
-            public void onClick(View v) {
-                if (clicked == false) {
-                    clicked = true;
-                    favorite.setBackgroundColor(R.color.favorite_color_red);
-                    MovieHelper movieHelper = new MovieHelper(getContext());
-                    SQLiteDatabase db = movieHelper.getWritableDatabase();
+            public void liked(LikeButton likeButton) {
+                MovieHelper movieHelper = new MovieHelper(getContext());
+                SQLiteDatabase db = movieHelper.getWritableDatabase();
 
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put(MoviesContract.MovieEntry.COLUMN_NAME_TITLE, json);
-                    db.insert(MoviesContract.MovieEntry.TABLE_NAME, null, contentValues);
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(MoviesContract.MovieEntry.COLUMN_NAME_TITLE, json);
+                db.insert(MoviesContract.MovieEntry.TABLE_NAME, null, contentValues);
 
+            }
 
-                } else {
-                    // Filter results WHERE "title" = 'My Title'
-                    String selection = MoviesContract.MovieEntry.COLUMN_NAME_TITLE + " = ?";
-                    String[] selectionArgs = {json };
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                String selection = MoviesContract.MovieEntry.COLUMN_NAME_TITLE + " = ?";
+                String[] selectionArgs = {json};
 
+                MovieHelper movieHelper = new MovieHelper(getContext());
+                SQLiteDatabase db = movieHelper.getWritableDatabase();
+                db.delete(MoviesContract.MovieEntry.TABLE_NAME, selection, selectionArgs);
 
-                    MovieHelper movieHelper = new MovieHelper(getContext());
-                    SQLiteDatabase db = movieHelper.getWritableDatabase();
-                    db.delete(MoviesContract.MovieEntry.TABLE_NAME, selection ,selectionArgs);
-
-                   // Toast.makeText(getContext(), "already exist", Toast.LENGTH_LONG).show();
-
-                }
             }
         });
 
-
         return view;
+    }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        MovieHelper movieHelper = new MovieHelper(getActivity());
+        SQLiteDatabase db = movieHelper.getReadableDatabase();
+        Cursor cursor = db.query(MoviesContract.MovieEntry.TABLE_NAME, null, null, null, null, null, null);
+        while (cursor.moveToNext()) {
+            String jsonString = cursor.getString(1);
+            if (jsonString.equals(json)) {
+                likeButton.setLiked(true);
+            }
+            else {
+                likeButton.setLiked(false);
+
+            }
+
+        }
+
     }
 
     public void fetch_youtube_key(String id) {

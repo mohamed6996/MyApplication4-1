@@ -125,13 +125,15 @@
                             android:layout_height="wrap_content"
                             android:padding="5dp" />
 
-                        <com.joanzapata.iconify.widget.IconTextView
-                            android:id="@+id/favor"
+
+                        <com.like.LikeButton
+                            app:icon_type="heart"
+                            app:icon_size="40dp"
+                            android:id="@+id/star_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="{fa-heart-o}"
-                            android:textColor="@color/favorite_color_white"
-                            android:textSize="30sp" />
+                            app:circle_start_color="@color/colorPrimary"
+                            app:circle_end_color="@color/colorAccent" />
 
                     </LinearLayout>
 

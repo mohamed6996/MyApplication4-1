@@ -20,6 +20,9 @@ public class ItemModel {
 
     }
 
+    public ItemModel() {
+    }
+
     public String getBackdrop_path() {
         return backdrop_path;
     }

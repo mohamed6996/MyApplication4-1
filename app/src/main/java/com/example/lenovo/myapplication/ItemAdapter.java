@@ -92,32 +92,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.VH> {
 
 
 
-                  /*  favorits.setBackgroundColor(vhContext.getResources().getColor(R.color.favorite_color));
-                    RecyclerView.Adapter a = new ItemAdapter();
-                    a.notifyItemChanged(getAdapterPosition());
-                    a.notifyDataSetChanged();*/
-
-                 /*   int color = Color.parseColor("#AE6118"); //The color u want
-                    favorits.setColorFilter(color);
-
-                    int position = getAdapterPosition();
-                    ItemModel itemModel = vhDataSet.get(position);
-
-                    Gson gson = new Gson();
-                    String jsonString = gson.toJson(itemModel, ItemModel.class);
-
-
-                    MovieHelper movieHelper = new MovieHelper(vhContext);
-                    SQLiteDatabase db = movieHelper.getWritableDatabase();
-
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put(MoviesContract.MovieEntry.COLUMN_NAME_TITLE, jsonString);
-                    Long row_id = db.insert(MoviesContract.MovieEntry.TABLE_NAME, null, contentValues);*/
-
-
-
-
-
         }
 
         @Override

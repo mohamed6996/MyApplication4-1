@@ -37,9 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ItemFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
@@ -47,6 +44,7 @@ public class ItemFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
 
     private List<ItemModel> mDataSet;
+
 
     public static int type;
 
@@ -63,7 +61,7 @@ public class ItemFragment extends Fragment {
         mDataSet = new ArrayList<>();
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("PREF_NAME", getActivity().MODE_PRIVATE);
-        sharedPreferences.getInt("PREF_NAME", 0);
+        sharedPreferences.getInt("popular", 0);
         sharedPreferences.getInt("top", 0);
 
         switch (type) {
@@ -134,7 +132,6 @@ public class ItemFragment extends Fragment {
 
 
         }
-
 
         editor.apply();
         return super.onOptionsItemSelected(item);
