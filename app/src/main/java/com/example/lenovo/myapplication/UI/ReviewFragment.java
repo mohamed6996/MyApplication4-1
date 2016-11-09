@@ -1,4 +1,4 @@
-package com.example.lenovo.myapplication;
+package com.example.lenovo.myapplication.UI;
 
 
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.lenovo.myapplication.R;
 
 
 /**

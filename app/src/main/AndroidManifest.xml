@@ -13,14 +13,14 @@
 
         <activity
             android:configChanges="screenSize|orientation"
-            android:name=".MainActivity">
+            android:name=".UI.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DetailActivity"
+        <activity android:name=".UI.DetailActivity"
             android:theme="@style/AppTheme.NoActionBar"
             ></activity>
         

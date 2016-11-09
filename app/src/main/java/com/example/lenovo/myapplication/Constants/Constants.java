@@ -1,4 +1,4 @@
-package com.example.lenovo.myapplication;
+package com.example.lenovo.myapplication.Constants;
 
 /**
  * Created by lenovo on 10/24/2016.
@@ -13,7 +13,11 @@ public class Constants {
 
     public static final String IMG_BASE = "https://image.tmdb.org/t/p/w185";
 
-    public static final String BACK_DROP_PATH = "https://image.tmdb.org/t/p/w500";
+    public static final String BACK_DROP_PATH = "https://image.tmdb.org/t/p/w600";
+
+    public static final String KEY_POPULAR = "popular" ;
+    public static final String KEY_TOP_RATED = "top_rated" ;
+
 
 
 

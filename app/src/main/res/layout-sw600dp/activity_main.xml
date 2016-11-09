@@ -4,12 +4,12 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.lenovo.myapplication.MainActivity">
+    tools:context="com.example.lenovo.myapplication.UI.MainActivity">
 
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/fragment_item"
-        android:name="com.example.lenovo.myapplication.ItemFragment"
+        android:name="com.example.lenovo.myapplication.UI.ItemFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1" />

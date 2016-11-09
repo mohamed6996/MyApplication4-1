@@ -1,10 +1,9 @@
-package com.example.lenovo.myapplication;
+package com.example.lenovo.myapplication.UI;
 
 
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -20,17 +19,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
+import com.example.lenovo.myapplication.Constants.Constants;
+import com.example.lenovo.myapplication.MySingleton;
+import com.example.lenovo.myapplication.R;
 import com.example.lenovo.myapplication.db.MovieHelper;
 import com.example.lenovo.myapplication.db.MoviesContract;
-import com.joanzapata.iconify.Iconify;
-import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 
@@ -43,21 +42,17 @@ import org.json.JSONObject;
  * A simple {@link Fragment} subclass.
  */
 public class DetailFragment extends Fragment {
-    TextView FilmName, overView, releaseDate, voteAvg, review_field;
+    TextView FilmName, overView, releaseDate, voteAvg;
     ImageView image_path, back_path;
     Button review;
-    String trailer_id, key;
-    String review_content;
-    String json;
+    String review_content, trailer_id, key, json;
     FloatingActionButton trailer;
     LikeButton likeButton;
-
     String film_name, over_view, release_date, vote_avg, image_key, backDrop_path, id_key;
 
 
     public DetailFragment() {
         // Required empty public constructor
-
     }
 
 
@@ -65,37 +60,9 @@ public class DetailFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle bundle = null;
-        if (MainActivity.mTWO_PANE) {
-            bundle = getArguments();
-        } else {
-            bundle = getActivity().getIntent().getExtras();
-        }
-        film_name = bundle.getString("FILM_NAME_KEY");
-        over_view = bundle.getString("OVER_VIEW_KEY");
-        release_date = bundle.getString("RELEASE_DATE_KEY");
-        vote_avg = bundle.getString("VOTE_AVERAGE_KEY");
-        image_key = bundle.getString("IMAGE_KEY");
-        backDrop_path = bundle.getString("BACKDROP_PATH_KEY");
-        id_key = bundle.getString("ID_KEY");
-        json = bundle.getString("jsonString");
-
-        StringBuilder builder = new StringBuilder();
-        builder.append(" https://api.themoviedb.org/3/movie/");
-        builder.append(id_key);
-        builder.append("/videos?api_key=1a618051961d7a730414257885f0d9d3&language=en-US");
-        String Full_id = builder.toString();
-
-        fetch_youtube_key(Full_id);
-
-        StringBuilder b = new StringBuilder();
-        b.append(" https://api.themoviedb.org/3/movie/");
-        b.append(id_key);
-        b.append("/reviews?api_key=1a618051961d7a730414257885f0d9d3&language=en-US");
-        String full = b.toString();
-
-        fetch_review(full);
-
+        getBundle();
+        fetch_youtube_key(get_youtube_key(id_key));
+        fetch_review(get_review_key(id_key));
 
     }
 
@@ -122,9 +89,8 @@ public class DetailFragment extends Fragment {
         image_path = (ImageView) view.findViewById(R.id.img);
         back_path = (ImageView) view.findViewById(R.id.back_path);
         trailer = (FloatingActionButton) view.findViewById(R.id.fab);
-        review_field = (TextView) view.findViewById(R.id.review_field);
+        review = (Button) view.findViewById(R.id.review);
         likeButton = (LikeButton) view.findViewById(R.id.star_button);
-
 
         FilmName.setText(film_name);
         overView.setText(over_view);
@@ -133,11 +99,68 @@ public class DetailFragment extends Fragment {
         String full_image = Constants.IMG_BASE + image_key;
         String full_back_image = Constants.BACK_DROP_PATH + backDrop_path;
 
-
         Glide.with(this).load(full_image).placeholder(R.drawable.ic_dots).into(image_path);
         Glide.with(this).load(full_back_image).placeholder(R.drawable.ic_dots).into(back_path);
 
 
+        getTrailer();
+        getReview();
+        makeFavorite();
+
+
+        return view;
+    }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        getFavorites();
+
+    }
+
+    public void getBundle() {
+
+        Bundle bundle = null;
+        if (MainActivity.mTWO_PANE) {
+            bundle = getArguments();
+        } else {
+            bundle = getActivity().getIntent().getExtras();
+        }
+        film_name = bundle.getString("FILM_NAME_KEY");
+        over_view = bundle.getString("OVER_VIEW_KEY");
+        release_date = bundle.getString("RELEASE_DATE_KEY");
+        vote_avg = bundle.getString("VOTE_AVERAGE_KEY");
+        image_key = bundle.getString("IMAGE_KEY");
+        backDrop_path = bundle.getString("BACKDROP_PATH_KEY");
+        id_key = bundle.getString("ID_KEY");
+        json = bundle.getString("jsonString");
+
+    }
+
+    public String get_youtube_key(String id_key) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(" https://api.themoviedb.org/3/movie/");
+        builder.append(id_key);
+        builder.append("/videos?api_key=1a618051961d7a730414257885f0d9d3&language=en-US");
+        String youtube_key = builder.toString();
+
+        return youtube_key;
+    }
+
+    public String get_review_key(String id_key) {
+        StringBuilder b = new StringBuilder();
+        b.append(" https://api.themoviedb.org/3/movie/");
+        b.append(id_key);
+        b.append("/reviews?api_key=1a618051961d7a730414257885f0d9d3&language=en-US");
+        String review_key = b.toString();
+
+        return review_key;
+
+    }
+
+    public void getTrailer() {
         trailer_id = id_key;
 
         trailer.setOnClickListener(new View.OnClickListener() {
@@ -156,8 +179,9 @@ public class DetailFragment extends Fragment {
             }
         });
 
+    }
 
-        review = (Button) view.findViewById(R.id.review);
+    public void getReview() {
         review.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,14 +191,19 @@ public class DetailFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putString("reviewKey", responce);
                 dialog.setArguments(args);
-                // TODO modify to work on tablets
-                getFragmentManager().beginTransaction().replace(R.id.activity_detail, dialog).addToBackStack(null).commit();
-                review_field.setText(responce);
+
+                if (getActivity().findViewById(R.id.detail_container) != null) {
+                    getFragmentManager().beginTransaction().replace(R.id.detail_container, dialog).addToBackStack(null).commit();
+                } else {
+                    getFragmentManager().beginTransaction().replace(R.id.activity_detail, dialog).addToBackStack(null).commit();
+                }
+
 
             }
         });
+    }
 
-
+    public void makeFavorite() {
         likeButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
@@ -185,7 +214,7 @@ public class DetailFragment extends Fragment {
                 contentValues.put(MoviesContract.MovieEntry.COLUMN_NAME_TITLE, json);
                 db.insert(MoviesContract.MovieEntry.TABLE_NAME, null, contentValues);
 
-                Snackbar.make(likeButton,"Marked as Favorite 💓💗", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(likeButton, "Marked as Favorite 💓💗", Snackbar.LENGTH_LONG).show();
 
             }
 
@@ -198,19 +227,15 @@ public class DetailFragment extends Fragment {
                 SQLiteDatabase db = movieHelper.getWritableDatabase();
                 db.delete(MoviesContract.MovieEntry.TABLE_NAME, selection, selectionArgs);
 
-                Snackbar.make(likeButton,"Removed from Favorites😐😐", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(likeButton, "Removed from Favorites 😐😐", Snackbar.LENGTH_LONG).show();
 
 
             }
         });
 
-        return view;
     }
 
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void getFavorites() {
         String jsonString = null;
         StringBuilder builder = new StringBuilder();
         MovieHelper movieHelper = new MovieHelper(getActivity());
@@ -231,7 +256,6 @@ public class DetailFragment extends Fragment {
     }
 
     public void fetch_youtube_key(String id) {
-
 
         StringRequest string = new StringRequest(Request.Method.GET, id, new Response.Listener<String>() {
             @Override

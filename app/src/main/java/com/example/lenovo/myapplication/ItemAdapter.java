@@ -1,38 +1,22 @@
 package com.example.lenovo.myapplication;
 
-import android.app.ActivityOptions;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.lenovo.myapplication.db.MovieHelper;
-import com.example.lenovo.myapplication.db.MoviesContract;
+import com.example.lenovo.myapplication.Constants.Constants;
+import com.example.lenovo.myapplication.UI.DetailActivity;
+import com.example.lenovo.myapplication.UI.DetailFragment;
+import com.example.lenovo.myapplication.UI.MainActivity;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,8 +1,9 @@
-package com.example.lenovo.myapplication;
+package com.example.lenovo.myapplication.UI;
 
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.lenovo.myapplication.R;
 
 public class MainActivity extends AppCompatActivity {
 

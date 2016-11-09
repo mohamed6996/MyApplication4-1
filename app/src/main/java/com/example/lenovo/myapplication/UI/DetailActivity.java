@@ -1,11 +1,9 @@
-package com.example.lenovo.myapplication;
+package com.example.lenovo.myapplication.UI;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.example.lenovo.myapplication.R;
 
 public class DetailActivity extends AppCompatActivity {
    /* TextView overView, releaseDate, voteAvg;

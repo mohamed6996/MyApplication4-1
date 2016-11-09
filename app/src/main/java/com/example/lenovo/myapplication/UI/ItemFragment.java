@@ -1,4 +1,4 @@
-package com.example.lenovo.myapplication;
+package com.example.lenovo.myapplication.UI;
 
 
 import android.content.SharedPreferences;
@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -17,24 +16,25 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.lenovo.myapplication.Constants.Constants;
+import com.example.lenovo.myapplication.ItemAdapter;
+import com.example.lenovo.myapplication.ItemModel;
+import com.example.lenovo.myapplication.MySingleton;
+import com.example.lenovo.myapplication.R;
 import com.example.lenovo.myapplication.db.MovieHelper;
 import com.example.lenovo.myapplication.db.MoviesContract;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.joanzapata.iconify.Iconify;
-import com.joanzapata.iconify.fonts.FontAwesomeModule;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +45,7 @@ public class ItemFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
+    ItemModel model ;
     private List<ItemModel> mDataSet;
 
     public static int type;
@@ -62,8 +63,8 @@ public class ItemFragment extends Fragment {
         mDataSet = new ArrayList<>();
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("PREF_NAME", getActivity().MODE_PRIVATE);
-        sharedPreferences.getInt("popular", 0);
-        sharedPreferences.getInt("top", 0);
+        sharedPreferences.getInt(Constants.KEY_POPULAR, 0);
+        sharedPreferences.getInt(Constants.KEY_TOP_RATED, 0);
 
         switch (type) {
             case 1:
@@ -76,6 +77,10 @@ public class ItemFragment extends Fragment {
                 initDataset(Constants.POPULAR);
 
         }
+
+        model.getImagePath();
+
+
 
     }
 
@@ -96,14 +101,14 @@ public class ItemFragment extends Fragment {
         int id = item.getItemId();
         if (id == R.id.popular) {
             type = 1;
-            editor.putInt("popular", 1);
+            editor.putInt(Constants.KEY_POPULAR, 1);
             if (mDataSet != null) mDataSet.clear();
             initDataset(Constants.POPULAR);
             return true;
         }
         if (id == R.id.top_rated) {
             type = 2;
-            editor.putInt("top", 2);
+            editor.putInt(Constants.KEY_TOP_RATED, 2);
             if (mDataSet != null) mDataSet.clear();
             initDataset(Constants.TOP_RATED);
             return true;
@@ -128,10 +133,7 @@ public class ItemFragment extends Fragment {
             } finally {
                 cursor.close();
                 return true;
-
             }
-
-
         }
 
         editor.apply();
@@ -187,7 +189,7 @@ public class ItemFragment extends Fragment {
                                 String vote_average = jsonObject1.getString("vote_average");
                                 String id = jsonObject1.getString("id");
 
-                                ItemModel model = new ItemModel(poster_path, backdrop_path, original_title, over_view, release_date, vote_average, id);
+                                model = new ItemModel(poster_path, backdrop_path, original_title, over_view, release_date, vote_average, id);
                                 mDataSet.add(model);
                                 mAdapter.notifyDataSetChanged();
                             }
