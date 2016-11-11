@@ -26,7 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.example.lenovo.myapplication.Constants.Constants;
-import com.example.lenovo.myapplication.MySingleton;
+import com.example.lenovo.myapplication.singleton.MySingleton;
 import com.example.lenovo.myapplication.R;
 import com.example.lenovo.myapplication.db.MovieHelper;
 import com.example.lenovo.myapplication.db.MoviesContract;
@@ -78,7 +78,11 @@ public class DetailFragment extends Fragment {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().finish();
+                if (MainActivity.mTWO_PANE) {
+                    getActivity().getSupportFragmentManager().beginTransaction().hide(new DetailFragment()).commit();
+                } else {
+                    getActivity().finish();
+                }
             }
         });
 
@@ -99,8 +103,8 @@ public class DetailFragment extends Fragment {
         String full_image = Constants.IMG_BASE + image_key;
         String full_back_image = Constants.BACK_DROP_PATH + backDrop_path;
 
-        Glide.with(this).load(full_image).placeholder(R.drawable.ic_dots).into(image_path);
-        Glide.with(this).load(full_back_image).placeholder(R.drawable.ic_dots).into(back_path);
+        Glide.with(this).load(full_image).into(image_path);
+        Glide.with(this).load(full_back_image).into(back_path);
 
 
         getTrailer();
@@ -128,14 +132,14 @@ public class DetailFragment extends Fragment {
         } else {
             bundle = getActivity().getIntent().getExtras();
         }
-        film_name = bundle.getString("FILM_NAME_KEY");
-        over_view = bundle.getString("OVER_VIEW_KEY");
-        release_date = bundle.getString("RELEASE_DATE_KEY");
-        vote_avg = bundle.getString("VOTE_AVERAGE_KEY");
-        image_key = bundle.getString("IMAGE_KEY");
-        backDrop_path = bundle.getString("BACKDROP_PATH_KEY");
-        id_key = bundle.getString("ID_KEY");
-        json = bundle.getString("jsonString");
+        film_name = bundle.getString(Constants.FILM_NAME_KEY);
+        over_view = bundle.getString(Constants.OVER_VIEW_KEY);
+        release_date = bundle.getString(Constants.RELESE_DAT_KEY);
+        vote_avg = bundle.getString(Constants.VOTE_AVG_KEY);
+        image_key = bundle.getString(Constants.IMAGE_PATH_KEY);
+        backDrop_path = bundle.getString(Constants.BACK_IMG_PATH_KEY);
+        id_key = bundle.getString(Constants.ID_KEY);
+        json = bundle.getString(Constants.JSON_ITEM_KEY);
 
     }
 
@@ -192,7 +196,7 @@ public class DetailFragment extends Fragment {
                 args.putString("reviewKey", responce);
                 dialog.setArguments(args);
 
-                if (getActivity().findViewById(R.id.detail_container) != null) {
+                if (MainActivity.mTWO_PANE) {
                     getFragmentManager().beginTransaction().replace(R.id.detail_container, dialog).addToBackStack(null).commit();
                 } else {
                     getFragmentManager().beginTransaction().replace(R.id.activity_detail, dialog).addToBackStack(null).commit();

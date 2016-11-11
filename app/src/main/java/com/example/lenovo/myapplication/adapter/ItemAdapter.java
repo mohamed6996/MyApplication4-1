@@ -1,4 +1,4 @@
-package com.example.lenovo.myapplication;
+package com.example.lenovo.myapplication.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,9 +12,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.lenovo.myapplication.Constants.Constants;
+import com.example.lenovo.myapplication.R;
 import com.example.lenovo.myapplication.UI.DetailActivity;
 import com.example.lenovo.myapplication.UI.DetailFragment;
 import com.example.lenovo.myapplication.UI.MainActivity;
+import com.example.lenovo.myapplication.model.ItemModel;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -88,20 +90,21 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.VH> {
 
             Gson gson = new Gson();
             String jsonString = gson.toJson(m, ItemModel.class);
-            b.putString("jsonString", jsonString);
-            b.putString("FILM_NAME_KEY", m.getFilm_name());
-            b.putString("OVER_VIEW_KEY", m.getOver_view());
-            b.putString("RELEASE_DATE_KEY", m.getRelease_date());
-            b.putString("VOTE_AVERAGE_KEY", m.getVote_average());
-            b.putString("IMAGE_KEY", m.getImagePath());
-            b.putString("BACKDROP_PATH_KEY", m.getBackdrop_path());
-            b.putString("ID_KEY", m.getId());
+            b.putString(Constants.JSON_ITEM_KEY, jsonString);
+            b.putString(Constants.FILM_NAME_KEY, m.getFilm_name());
+            b.putString(Constants.OVER_VIEW_KEY, m.getOver_view());
+            b.putString(Constants.RELESE_DAT_KEY, m.getRelease_date());
+            b.putString(Constants.VOTE_AVG_KEY, m.getVote_average());
+            b.putString(Constants.IMAGE_PATH_KEY, m.getImagePath());
+            b.putString(Constants.BACK_IMG_PATH_KEY, m.getBackdrop_path());
+            b.putString(Constants.ID_KEY, m.getId());
 
             if (MainActivity.mTWO_PANE) {
                 DetailFragment detailFragment = new DetailFragment();
                 detailFragment.setArguments(b);
                 ((MainActivity) vhContext).getSupportFragmentManager().beginTransaction()
                         .replace(R.id.detail_container, detailFragment)
+                        .addToBackStack(null)
                         .commit();
             } else {
                 Intent intent = new Intent(this.vhContext, DetailActivity.class);

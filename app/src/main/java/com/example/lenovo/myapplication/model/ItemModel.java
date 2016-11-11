@@ -1,4 +1,4 @@
-package com.example.lenovo.myapplication;
+package com.example.lenovo.myapplication.model;
 
 /**
  * Created by lenovo on 10/24/2016.
@@ -20,8 +20,7 @@ public class ItemModel {
 
     }
 
-    public ItemModel() {
-    }
+
 
     public String getBackdrop_path() {
         return backdrop_path;

@@ -1,4 +1,4 @@
-package com.example.lenovo.myapplication;
+package com.example.lenovo.myapplication.singleton;
 
 import android.content.Context;
 

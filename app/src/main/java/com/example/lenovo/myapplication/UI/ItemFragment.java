@@ -22,9 +22,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.lenovo.myapplication.Constants.Constants;
-import com.example.lenovo.myapplication.ItemAdapter;
-import com.example.lenovo.myapplication.ItemModel;
-import com.example.lenovo.myapplication.MySingleton;
+import com.example.lenovo.myapplication.adapter.ItemAdapter;
+import com.example.lenovo.myapplication.model.ItemModel;
+import com.example.lenovo.myapplication.singleton.MySingleton;
 import com.example.lenovo.myapplication.R;
 import com.example.lenovo.myapplication.db.MovieHelper;
 import com.example.lenovo.myapplication.db.MoviesContract;
@@ -44,10 +44,7 @@ public class ItemFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
-    ItemModel model ;
     private List<ItemModel> mDataSet;
-
     public static int type;
 
     public ItemFragment() {
@@ -62,7 +59,7 @@ public class ItemFragment extends Fragment {
         setHasOptionsMenu(true);
         mDataSet = new ArrayList<>();
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("PREF_NAME", getActivity().MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Constants.PREF_SELECTION, getActivity().MODE_PRIVATE);
         sharedPreferences.getInt(Constants.KEY_POPULAR, 0);
         sharedPreferences.getInt(Constants.KEY_TOP_RATED, 0);
 
@@ -78,10 +75,6 @@ public class ItemFragment extends Fragment {
 
         }
 
-        model.getImagePath();
-
-
-
     }
 
     @Override
@@ -95,7 +88,7 @@ public class ItemFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("PREF_NAME", getActivity().MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Constants.PREF_SELECTION, getActivity().MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         int id = item.getItemId();
@@ -189,7 +182,7 @@ public class ItemFragment extends Fragment {
                                 String vote_average = jsonObject1.getString("vote_average");
                                 String id = jsonObject1.getString("id");
 
-                                model = new ItemModel(poster_path, backdrop_path, original_title, over_view, release_date, vote_average, id);
+                                ItemModel model = new ItemModel(poster_path, backdrop_path, original_title, over_view, release_date, vote_average, id);
                                 mDataSet.add(model);
                                 mAdapter.notifyDataSetChanged();
                             }

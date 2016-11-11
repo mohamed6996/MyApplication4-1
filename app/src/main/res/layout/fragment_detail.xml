@@ -24,7 +24,8 @@
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
             app:expandedTitleTextAppearance="@android:color/transparent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            >
 
             <ImageView
                 android:id="@+id/back_path"
@@ -161,9 +162,9 @@
                 android:id="@+id/review"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="review" />
-
-
+                android:text="get reviews"
+                android:fontFamily="casual"
+                android:layout_gravity="center"/>
 
 
         </LinearLayout>
